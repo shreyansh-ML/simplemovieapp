@@ -1,0 +1,3 @@
+// curl -XGET localhost:9090/movies
+// curl -XGET localhost:9090/2|jq
+//curl -XDELETE localhost:9090/2|jq

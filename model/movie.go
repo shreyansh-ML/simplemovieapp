@@ -2,7 +2,9 @@ package model
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
+	"slices"
 	"time"
 )
 
@@ -22,8 +24,12 @@ func (p *Movies) ToJSON(w io.Writer) error {
 	return e.Encode(p)
 }
 
-func Get() Movies {
+func GetMovies() Movies {
 	return movieList
+}
+
+func GetMovie(id int32) *Metadata {
+	return movieList[id]
 }
 
 func Add(m *Metadata) Movies {
@@ -46,9 +52,12 @@ func Update(m *Metadata, id int32) Movies {
 
 // DeleteMovie removes a movie from the list.
 func DeleteMovie(id int32) Movies {
+	fmt.Println("inside delete movie")
+	fmt.Printf("movieid before delete %d\n", id)
 	for i, movie := range movieList {
 		if movie.ID == id {
-			movieList = append(movieList[:i], movieList[i+1:]...)
+			//movieList = append(movieList[:i], movieList[i+1:]...)
+			movieList = slices.Delete(movieList, i, i+1)
 			break
 		}
 	}
@@ -60,14 +69,14 @@ func DeleteMovie(id int32) Movies {
 // DeleteMovie removes a movie from the list.
 // Delete removes a movie from the list.
 var movieList = []*Metadata{
-	&Metadata{
+	{
 		ID:          1,
 		Title:       "Tare Zameen",
 		Description: "Brave ",
 		Director:    "AK",
 		CreateDate:  time.Now().UTC().String(),
 	},
-	&Metadata{
+	{
 		ID:          2,
 		Title:       "3 ID",
 		Description: "Copy",

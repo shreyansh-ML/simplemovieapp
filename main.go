@@ -9,16 +9,26 @@ import (
 	"time"
 
 	"example.com/handlers"
+	"github.com/gorilla/mux"
 )
 
 func main() {
 	l := log.New(os.Stdout, "product APi", log.LstdFlags)
 	//hh:= handlers.NewHello(l)
 	hh := handlers.NewMovie(l)
-	hh1 := handlers.NewMovie(l)
-	sm := http.NewServeMux()
-	sm.Handle("/", hh)
-	sm.Handle("/{id}", hh1)
+	//hh1 := handlers.NewMovie(l)
+	//sm := http.NewServeMux()
+	sm := mux.NewRouter()
+	//getRouter := sm.Methods(http.MethodGet).Subrouter()
+	//	sm.Handle("/", hh)
+	//sm.Handle("/{id}", hh1)
+	sm.Methods(http.MethodGet).Path("/movies").HandlerFunc(hh.GetMovies)
+	//sm.Methods(http.MethodGet).Path("/movies/{id:[0-9]+}").HandlerFunc(hh.GetMovie)
+	sm.Methods(http.MethodGet).Path("/{id:[0-9]{1,}}").HandlerFunc(hh.GetMovie)
+	sm.Methods(http.MethodPut).Path("/{id:[0-9]{1,}}").Handler(http.HandlerFunc(hh.UpdateMovie))
+	sm.Use(hh.MiddlewareValidateProduct)
+	sm.Methods(http.MethodPost).Path("/").Handler(http.HandlerFunc(hh.AddMovie))
+	sm.Methods(http.MethodDelete).Path("/{id:[0-9]{1,}}").Handler(http.HandlerFunc(hh.DeleteMovie))
 	createServer := func() *http.Server {
 		s := &http.Server{
 			Addr:         ":9090",
