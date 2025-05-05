@@ -1,0 +1,19 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json",
+    "schemes:",
+    "http",
+    "https"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "File: handlers/movie.go",
+    "version": "1.0.0"
+  },
+  "host": "localhost:9090",
+  "basePath": "/",
+  "paths": {}
+}

@@ -1,3 +1,22 @@
+// File: handlers/movie.go
+// consumes:
+//   - application/json
+//
+// produces:
+//   - application/json
+//
+// schemes:
+//   - http
+//   - https
+//
+// host: localhost:9090
+// basePath: /
+// version: 1.0.0
+// title: Movie API
+//
+// swagger:'2.0'
+//
+//swagger:meta
 package handlers
 
 import (
